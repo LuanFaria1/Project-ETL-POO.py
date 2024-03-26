@@ -48,7 +48,7 @@ class DesvioPadraoCalculator:
 
 # Realiza as operações
 if __name__ == "__main__":
-    file_path = "DataFramePOO.xlsx"  # Coloque o caminho do seu arquivo Excel aqui
+    file_path = "DataFramePOO.xlsx" 
 
     # Extração de dados
     extractor = DataExtractor(file_path)
@@ -60,12 +60,12 @@ if __name__ == "__main__":
 
     # Cálculo da média
     calculator_media = MediaCalculator(extracted_data)
-    calculator_media.calcular_media('Total')  # Substitua 'Total' pelo nome da coluna desejada
+    calculator_media.calcular_media('Total')  
 
     # Cálculo da mediana
     calculator_mediana = MedianaCalculator(extracted_data)
-    calculator_mediana.calcular_mediana('Total')  # Substitua 'Total' pelo nome da coluna desejada
+    calculator_mediana.calcular_mediana('Total')  
 
     # Cálculo do desvio padrão
     calculator_desvio_padrao = DesvioPadraoCalculator(extracted_data)
-    calculator_desvio_padrao.calcular_desvio_padrao('Total')  # Substitua 'Total' pelo nome da coluna desejada
+    calculator_desvio_padrao.calcular_desvio_padrao('Total') 

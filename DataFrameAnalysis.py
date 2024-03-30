@@ -1,18 +1,11 @@
-# Define as classes para extração, análise e cálculo estatístico
 import pandas as pd
-
-class DataExtractor:
-    def __init__(self, file_path):
-        self.data = pd.read_excel(file_path)
-    
-    def extract(self):
-        return self.data
+import matplotlib.pyplot as plt
 
 class DataAnalyzer:
     def __init__(self, data_frame):
         self.data_frame = data_frame
     
-    def analyze(self):
+    def analyze(self): 
         print("1. Quantidade de elementos:")
         print(len(self.data_frame))
         print("\n2. Nome das colunas:")
@@ -20,52 +13,51 @@ class DataAnalyzer:
         print("\n3. Tipo de dado das colunas:")
         print(self.data_frame.dtypes)
         print("\n4. Análise estatística dos dados:")
-        print(self.data_frame.describe())
+        print(self.data_frame.describe().apply(lambda x: round(x, 2)))
 
-class MediaCalculator:
+class DataVisualizer:
     def __init__(self, data_frame):
         self.data_frame = data_frame
     
-    def calcular_media(self, coluna):
-        media = round(self.data_frame[coluna].mean(), 2)
-        print(f"\nMédia da coluna '{coluna}': {media}")
+    def plot_distribution(self, column):
+        plt.figure(figsize=(8, 6))
+        plt.hist(self.data_frame[column], bins=30, density=True, alpha=0.6, color='g')
+        plt.title(f'Distribuição Normal de {column}')
+        plt.xlabel(column)
+        plt.ylabel('Densidade')
+        plt.grid(True)
+        plt.show()
 
-class MedianaCalculator:
-    def __init__(self, data_frame):
-        self.data_frame = data_frame
-    
-    def calcular_mediana(self, coluna):
-        mediana = round(self.data_frame[coluna].median(), 2)
-        print(f"\nMediana da coluna '{coluna}': {mediana}")
+    def plot_boxplot(self, column):
+        plt.figure(figsize=(6, 4))
+        plt.boxplot(self.data_frame[column])
+        plt.title(f'Boxplot de {column}')
+        plt.ylabel(column)
+        plt.grid(True)
+        plt.show()
 
-class DesvioPadraoCalculator:
-    def __init__(self, data_frame):
-        self.data_frame = data_frame
-    
-    def calcular_desvio_padrao(self, coluna):
-        desvio_padrao = round(self.data_frame[coluna].std(), 2)
-        print(f"\nDesvio padrão da coluna '{coluna}': {desvio_padrao}")
+    def plot_index_vs_time(self, column):
+        tempo = range(len(self.data_frame))
+        indices = self.data_frame[column]
+        plt.figure(figsize=(10, 5))
+        plt.plot(tempo, indices, color='b')
+        plt.title(f'Curva {column} vs Tempo')
+        plt.xlabel('Tempo')
+        plt.ylabel(column)
+        plt.grid(True)
+        plt.show()
 
-# Realiza as operações
-if __name__ == "__main__":
-    file_path = "DataFramePOO.xlsx" 
+# Carregar os dados
+df = pd.read_excel("DataFramePOO.xlsx")
 
-    # Extração de dados
-    extractor = DataExtractor(file_path)
-    extracted_data = extractor.extract()
+# Analisar os dados
+analyzer = DataAnalyzer(df)
+analyzer.analyze()
 
-    # Análise estatística
-    analyzer = DataAnalyzer(extracted_data)
-    analyzer.analyze()
+# Visualizar os dados
+visualizer = DataVisualizer(df)
+visualizer.plot_distribution('Total')
+visualizer.plot_boxplot('Total')
+visualizer.plot_index_vs_time('Total')
 
-    # Cálculo da média
-    calculator_media = MediaCalculator(extracted_data)
-    calculator_media.calcular_media('Total')  
-
-    # Cálculo da mediana
-    calculator_mediana = MedianaCalculator(extracted_data)
-    calculator_mediana.calcular_mediana('Total')  
-
-    # Cálculo do desvio padrão
-    calculator_desvio_padrao = DesvioPadraoCalculator(extracted_data)
-    calculator_desvio_padrao.calcular_desvio_padrao('Total') 
+print(df)
